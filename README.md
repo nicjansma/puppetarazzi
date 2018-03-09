@@ -26,16 +26,25 @@ and each plugin can be enabled as needed.
 * `analytics`: Verifies that analytics services send beacons for the page hit
 * `asset-compression`: Verifies that specific types of content are compressed with
    the required method.
+* `basic`: Basic page validation (the response is 200 OK with content)
 * `caching`: Verifies that on a soft reload, all content is served from the disk
    cache.
 * `har`: Writes HAR files for each page load
+* `hsts`: Verifies HTTP Strict Transport Security is enabled
+* `icons`: Validates that `rel='icon'`, `rel='apple-touch-icon'` and
+  `msapplication-TileImage` icons exist
+* `img-alt`: Verifies all `<img>` have `alt=` attributes
+* `meta`: Verifies the specified `<meta>` tags exist
 * `mixed-content`: Verifies there are no Mixed-Content warnings
 * `no-404s`: Verifies there are no 404s
 * `opengraph`: Verifies pages have OpenGraph (and other) structured content
 * `pwa`: Verifies some of the Progressive Web App requirements
 * `rel-canonical`: Verifies <link rel='canonical'> tag exists
+* `rel-search`: Verifies <link rel='search'> tag exists
+* `rss`: Verifies `application/rss+xml` RSS tags exist
 * `schema`: Verifies schema.org types exist
 * `screenshots`: Takes screenshots for each page and device
+* `tao`: Verifies all assets have `Timing-Allow-Origin` set
 
 ## Installation
 
@@ -62,6 +71,7 @@ Example configuration below:
     "postLoadSleep": 2000,
     "reloadAll": false,
     "plugins": {
+        "basic": {},
         "analytics": {
             "require": [
                 { "name": "google", "match": "google-analytics\\.com\\/.*\\/?collect.*" },
@@ -82,6 +92,31 @@ Example configuration below:
         "har": {
             "output": "saved"
         },
+        "hsts": {},
+        "icons": {
+            "required": [
+                { "rel": "apple-touch-icon", "sizes": null },
+                { "rel": "apple-touch-icon", "sizes": "72x72" },
+                { "rel": "apple-touch-icon", "sizes": "114x114" },
+                { "rel": "apple-touch-icon", "sizes": "144x144" },
+                { "rel": "icon", "sizes": "16x16" },
+                { "rel": "icon", "sizes": "32x32" },
+                { "rel": "icon", "sizes": "48x48" },
+                { "rel": "icon", "sizes": "64x64" },
+                { "rel": "icon", "sizes": "96x96" }
+            ],
+            "tile": true
+        },
+        "img-alt": {},
+        "meta": {
+            "required": [
+                { "name": "msapplication-TileColor"},
+                { "http-equiv": "Content-Type"},
+                { "name": "robots", "content": "index,follow" },
+                { "name": "description" },
+                { "name": "viewport", "content": "width=device-width, initial-scale=1.0" }
+            ]
+        },
         "mixed-content": {
             "warnings": true
         },
@@ -94,6 +129,10 @@ Example configuration below:
         "rel-canonical": {
             "https": true
         },
+        "rel-search" : {},
+        "rss": {
+            "test": true
+        },
         "schema": {
             "require": [
                 "http://schema.org/WebPage",
@@ -105,6 +144,9 @@ Example configuration below:
             "output": "saved",
             "atf": true,
             "full": true
+        },
+        "tao": {
+            "exclude": []
         }
     },
     "pages": [
