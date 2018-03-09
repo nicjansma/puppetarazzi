@@ -42,16 +42,16 @@ Puppetarazzi.prototype.run = async function() {
         this.plugins[plugin].name = plugin;
     }
 
-    // launch the browser
-    const browser = await puppeteer.launch();
-    await this.notifyPlugins("onBrowser", browser);
-
-    // create a new page
-    const page = await browser.newPage();
-    await this.notifyPlugins("onPage", page);
-
     // test each device individually
     for (let device of this.config.devices) {
+        // launch the browser
+        let browser = await puppeteer.launch();
+        await this.notifyPlugins("onBrowser", browser);
+
+        // create a new page
+        let page = await browser.newPage();
+        await this.notifyPlugins("onPage", page);
+
         console.log(chalk.blue(device.name, `${device.width}x${device.height}`));
 
         // notify all plugins this device is starting
@@ -107,15 +107,15 @@ Puppetarazzi.prototype.run = async function() {
                 await this.notifyPlugins("onLoaded", page, pageDefinition, url, false, true);
             }
         }
+
+        // stop the browser
+        browser.close();
     }
 
     // write jUnit XML if requested
     if (this.config.junit) {
         this.reporter.save(this.config.junit);
     }
-
-    // stop the browser
-    browser.close();
 };
 
 /**

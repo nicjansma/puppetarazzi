@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.1
+v0.2.2
 
 Copyright 2018 Nic Jansma
 
@@ -194,6 +194,9 @@ Global options:
 
 ## Version History
 
+* v0.2.2 - 2018-03-08
+    * Launch a new browser for each device so repeated URL visits aren't cached
+      from a previous device
 * v0.2.1 - 2018-03-08
     * Fixed plugin load location when installed globally
 * v0.2.0 - 2018-03-08
