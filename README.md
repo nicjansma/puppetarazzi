@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.1.0
+v0.2.0
 
 Copyright 2018 Nic Jansma
 
@@ -25,10 +25,10 @@ and each plugin can be enabled as needed.
 
 * `analytics`: Verifies that analytics services send beacons for the page hit
 * `asset-compression`: Verifies that specific types of content are compressed with
-   the required method.
+   the required method
 * `basic`: Basic page validation (the response is 200 OK with content)
 * `caching`: Verifies that on a soft reload, all content is served from the disk
-   cache.
+   cache, and that `Cache-Control` headers exist
 * `har`: Writes HAR files for each page load
 * `hsts`: Verifies HTTP Strict Transport Security is enabled
 * `icons`: Validates that `rel='icon'`, `rel='apple-touch-icon'` and
@@ -41,7 +41,7 @@ and each plugin can be enabled as needed.
 * `pwa`: Verifies some of the Progressive Web App requirements
 * `rel-canonical`: Verifies <link rel='canonical'> tag exists
 * `rel-search`: Verifies <link rel='search'> tag exists
-* `rss`: Verifies `application/rss+xml` RSS tags exist
+* `rss`: Verifies RSS `<link rel='alternate'>` tags exist and the URL works
 * `schema`: Verifies schema.org types exist
 * `screenshots`: Takes screenshots for each page and device
 * `tao`: Verifies all assets have `Timing-Allow-Origin` set
@@ -87,7 +87,8 @@ Example configuration below:
                 "google-analytics\\.com\/collect",
                 "c\\.go-mpulse\\.net\\/api\\/config\\.json",
                 "\\.akstat\\.io\\/",
-            ]
+            ],
+            "page": true
         },
         "har": {
             "output": "saved"
@@ -125,7 +126,9 @@ Example configuration below:
             "testImage": true,
             "twitter": true
         },
-        "pwa": {},
+        "pwa": {
+            "sw": true
+        },
         "rel-canonical": {
             "https": true
         },
@@ -191,4 +194,11 @@ Global options:
 
 ## Version History
 
+* v0.2.0 - 2018-03-08
+    * New plugins: `basic`, `hsts`, `icons`, `img-alt`, `meta`, `rel-search`, `rss`, `tao`
+    * `asset-compression`: Match Content-Types with ";' in them
+    * `caching`: Report separately on page vs asset compression (optional)
+    * `caching`: Report on `Cache-Control` headers
+    * `opengraph`: Only run `testImage` if the URL exists
+    * `pwa`: Option to disable ServiceWorker detection
 * v0.1.0 - 2018-03-04: Initial version
