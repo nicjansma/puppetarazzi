@@ -20,6 +20,7 @@
  *
  * @param {Puppetarazzi} puppetarazzi Puppetarazzi instance
  * @param {object} config Configuration
+ * @param {boolean} config.sw Whether or not to test for a ServiceWorker
  * @param {TestReporter} testReporter Test reporter
  *
  * @returns {object} Plugin
@@ -54,7 +55,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
             testReporter.testIsTrue("available on SSL", page.url().indexOf("https://") === 0);
 
             // 4. Uses a ServiceWorker (for the second+ pages)
-            if (!firstLoad || reload) {
+            if ((!firstLoad || reload) && config.sw) {
                 testReporter.testIsTrue("uses ServiceWorker", sawServiceWorker);
             }
         }
