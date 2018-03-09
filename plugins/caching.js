@@ -1,17 +1,32 @@
 /**
  * Plugin: caching
  *
- * Verifies that on a soft reload, all content is served from the disk cache.
+ * Verifies that the page and all assets have `Cache-Control` headers, and
+ * on a soft reload, all content is served from the disk cache.
  *
  * @param {Puppetarazzi} puppetarazzi Puppetarazzi instance
  * @param {object} config Configuration
  * @param {string[]} config.exclude A list of string Regular Expressions for files to exclude
+ * @param {boolean} config.page Test for caching on the page itself
  * @param {TestReporter} testReporter Test reporter
  *
  * @returns {object} Plugin
  */
 module.exports = function(puppetarazzi, config, testReporter) {
+    // asset cache misses
     let cacheMisses = [];
+
+    // assets with missing headers
+    let missingHeaders = [];
+
+    // whether the page was a cache miss (on reload)
+    let pageCacheMiss = false;
+
+    // whether the page was missing caching headers
+    let pageMissingHeaders = false;
+
+    // current destination URL
+    let destination = null;
 
     config.exclude = config.exclude || [];
 
@@ -34,23 +49,68 @@ module.exports = function(puppetarazzi, config, testReporter) {
     }
 
     return {
-        onLoading: function() {
-            // clear the list of cache misses for this page
+        onLoading: function(page, pageDefinition, url) {
+            // reset state before this page begins
             cacheMisses = [];
+            missingHeaders = [];
+            pageCacheMiss = false;
+            pageMissingHeaders = false;
+            destination = url;
         },
         onLoaded: function(page, pageDefinition, url, firstLoad, reload) {
-            // only run on reload -- check there are no cache misses
+            // caching headers checks
+            testReporter.testIsTrue(
+                "page has cache-control headers",
+                !pageMissingHeaders);
+
+            testReporter.test(
+                "assets have cache-control headers",
+                missingHeaders.length ? missingHeaders : undefined);
+
+            // on reload, check there are no cache misses
             if (reload) {
+                testReporter.testIsTrue(
+                    "page cache misse",
+                    !pageCacheMiss);
+
                 testReporter.test(
-                    "no cache misses",
+                    "asset cache misses",
                     cacheMisses.length ? cacheMisses : undefined);
             }
         },
         onPage: async function(page) {
             page.on("response", response => {
-                // log this response if it was from the cache and not excluded
-                if (!response.fromCache() && !isExcluded(response.url())) {
-                    cacheMisses.push(response.url());
+                let isPage = response.url() === destination;
+
+                if (isPage && !config.page) {
+                    // skip for the destination page
+                    return;
+                }
+
+                // skip any excluded URLs
+                if (isExcluded(response.url())) {
+                    return;
+                }
+
+                // check for caching headers
+                let headers = response.headers();
+                if (!headers["cache-control"] ||
+                    headers["cache-control"].indexOf("max-age=") === -1 ||
+                    headers["cache-control"].indexOf("max-age=0") !== -1) {
+                    if (isPage) {
+                        pageMissingHeaders = true;
+                    } else {
+                        missingHeaders.push(response.url());
+                    }
+                }
+
+                // log cache misses
+                if (!response.fromCache()) {
+                    if (isPage) {
+                        pageCacheMiss = true;
+                    } else {
+                        cacheMisses.push(response.url());
+                    }
                 }
             });
         }
