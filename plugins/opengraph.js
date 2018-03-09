@@ -51,7 +51,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
                 testReporter.testIsTrue("opengraph og:image", results.data.ogImage && results.data.ogImage.url);
 
                 // verify the image exists
-                if (config.testImage && results.data.ogImage) {
+                if (config.testImage && results.data.ogImage && results.data.ogImage.url) {
                     var ogImageFailure = false;
 
                     try {
