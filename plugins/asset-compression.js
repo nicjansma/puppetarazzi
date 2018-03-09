@@ -27,13 +27,18 @@ module.exports = function(puppetarazzi, config, testReporter) {
             // report on each content type
             config.types.forEach(function(type) {
                 testReporter.test(
-                    `${type} should be compressed`,
+                    `${type} content should be compressed`,
                     (notCompressed[type] && notCompressed[type].length) ? notCompressed[type] : undefined);
             });
         },
         onPage: async function(page) {
             page.on("response", response => {
-                const contentType = response.headers()["content-type"];
+                let contentType = response.headers()["content-type"];
+
+                // strip anything after ';' (e.g. charset)
+                if (contentType.indexOf(";") !== -1) {
+                    contentType = contentType.substring(0, contentType.indexOf(";")).trim();
+                }
 
                 // see if it's one of our tracked types
                 if (config.types.indexOf(contentType) !== -1) {
