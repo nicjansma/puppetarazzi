@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.0
+v0.2.1
 
 Copyright 2018 Nic Jansma
 
@@ -194,6 +194,8 @@ Global options:
 
 ## Version History
 
+* v0.2.1 - 2018-03-08
+    * Fixed plugin load location when installed globally
 * v0.2.0 - 2018-03-08
     * New plugins: `basic`, `hsts`, `icons`, `img-alt`, `meta`, `rel-search`, `rss`, `tao`
     * `asset-compression`: Match Content-Types with ";' in them
