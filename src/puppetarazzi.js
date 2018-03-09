@@ -32,7 +32,7 @@ Puppetarazzi.prototype.run = async function() {
     // load each configured plugin
     for (let plugin in this.config.plugins) {
         // load .js
-        const PluginCode = require(path.join("..", "plugins", plugin));
+        const PluginCode = require(path.join(__dirname, "..", "plugins", plugin));
 
         this.plugins[plugin] = new PluginCode(
             this,
