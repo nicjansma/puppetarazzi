@@ -54,7 +54,7 @@ TestReporter.prototype.forClass = function(className) {
 
                 that.puppetarazzi.debug(className, chalk.red(figures("✖ ") + `${testName}: ${failure}`));
             } else {
-                that.puppetarazzi.debug(className, chalk.green(figures("✔︎") + `${testName}`));
+                that.puppetarazzi.debug(className, chalk.green(figures("✔︎ ") + `${testName}`));
             }
         },
 
