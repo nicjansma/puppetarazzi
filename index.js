@@ -4,6 +4,7 @@
 //
 const Puppetarazzi = require("./src/puppetarazzi");
 const fs = require("fs");
+const JSON5 = require("json5");
 
 // command-line arguments
 if (process.argv.length <= 2) {
@@ -15,7 +16,7 @@ const configFile = process.argv[2];
 
 // load the config file
 const fileContents = fs.readFileSync(configFile, "utf-8");
-const configJson = JSON.parse(fileContents);
+const configJson = JSON5.parse(fileContents);
 
 // call Puppetarazzi
 var p = new Puppetarazzi(configJson);
