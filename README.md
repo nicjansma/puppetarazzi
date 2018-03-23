@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.2
+v0.2.3
 
 Copyright 2018 Nic Jansma
 
@@ -194,6 +194,13 @@ Global options:
 
 ## Version History
 
+* v0.2.3 - 2018-03-22
+    * `asset-compression`: Bug fixes
+    * `img-alt`: Share the missing URLs on failure
+    * `rss`: Share failure message
+    * `schema`: Allow per-page config
+    * `tao`: Skip destination page
+    * Show unhandled Promise rejections in console for debugging
 * v0.2.2 - 2018-03-08
     * Launch a new browser for each device so repeated URL visits aren't cached
       from a previous device
