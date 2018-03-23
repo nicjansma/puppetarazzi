@@ -6,6 +6,9 @@ const Puppetarazzi = require("./src/puppetarazzi");
 const fs = require("fs");
 const JSON5 = require("json5");
 
+// for debugging
+process.on("unhandledRejection", r => console.log(r));
+
 // command-line arguments
 if (process.argv.length <= 2) {
     console.error("Usage: puppetarazzi [config.json]");
