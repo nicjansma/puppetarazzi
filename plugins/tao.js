@@ -14,6 +14,9 @@ module.exports = function(puppetarazzi, config, testReporter) {
     // asset TAO misses
     let taoMisses = [];
 
+    // current destination URL
+    let destination = null;
+
     config.exclude = config.exclude || [];
 
     // convert all excludes to RegExp
@@ -35,9 +38,10 @@ module.exports = function(puppetarazzi, config, testReporter) {
     }
 
     return {
-        onLoading: function() {
+        onLoading: function(page, pageDefinition, url) {
             // reset state before this page begins
             taoMisses = [];
+            destination = url;
         },
         onLoaded: function() {
             testReporter.test(
@@ -46,6 +50,11 @@ module.exports = function(puppetarazzi, config, testReporter) {
         },
         onPage: async function(page) {
             page.on("response", response => {
+                if (response.url() === destination) {
+                    // skip for the destination page
+                    return;
+                }
+
                 // skip any excluded URLs
                 if (isExcluded(response.url())) {
                     return;
