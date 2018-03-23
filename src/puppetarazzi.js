@@ -78,10 +78,14 @@ Puppetarazzi.prototype.run = async function() {
             // notify all plugins that the page is about to load
             await this.notifyPlugins("onLoading", page, pageDefinition, url);
 
-            // goto the specified URL
-            await page.goto(url, {
-                waitUntil: ["networkidle0", "load"]
-            });
+            try {
+                // goto the specified URL
+                await page.goto(url, {
+                    waitUntil: ["networkidle0", "load"]
+                });
+            } catch (e) {
+                console.error(e);
+            }
 
             // wait if configured
             if (this.config.postLoadSleep) {
@@ -98,10 +102,14 @@ Puppetarazzi.prototype.run = async function() {
                 // notify all plugins that the page is about to load
                 await this.notifyPlugins("onLoading", page, pageDefinition, url);
 
-                // go to the URL again
-                await page.goto(url, {
-                    waitUntil: ["networkidle0", "load"]
-                });
+                try {
+                    // go to the URL again
+                    await page.goto(url, {
+                        waitUntil: ["networkidle0", "load"]
+                    });
+                } catch (e) {
+                    console.error(e);
+                }
 
                 // notify all plugins that this page has loaded (a reload)
                 await this.notifyPlugins("onLoaded", page, pageDefinition, url, false, true);
