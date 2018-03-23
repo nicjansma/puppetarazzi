@@ -55,6 +55,11 @@ module.exports = function(puppetarazzi, config, testReporter) {
                     return;
                 }
 
+                if (response.url().indexOf("data:") !== -1) {
+                    // skip data:
+                    return;
+                }
+
                 // skip any excluded URLs
                 if (isExcluded(response.url())) {
                     return;

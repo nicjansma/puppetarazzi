@@ -82,6 +82,11 @@ module.exports = function(puppetarazzi, config, testReporter) {
             page.on("response", response => {
                 let isPage = response.url() === destination;
 
+                if (response.url().indexOf("data:") !== -1) {
+                    // skip data:
+                    return;
+                }
+
                 if (isPage && !config.page) {
                     // skip for the destination page
                     return;

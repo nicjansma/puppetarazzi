@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.3
+v0.2.4
 
 Copyright 2018 Nic Jansma
 
@@ -194,6 +194,8 @@ Global options:
 
 ## Version History
 
+* v0.2.4 - 2018-03-22
+    * `tao`, `caching`: Skip `data:` URI
 * v0.2.3 - 2018-03-22
     * `asset-compression`: Bug fixes
     * `img-alt`: Share the missing URLs on failure
