@@ -70,7 +70,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
             // on reload, check there are no cache misses
             if (reload) {
                 testReporter.testIsTrue(
-                    "page cache misse",
+                    "page cache miss",
                     !pageCacheMiss);
 
                 testReporter.test(
