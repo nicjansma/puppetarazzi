@@ -29,22 +29,23 @@ module.exports = function(puppetarazzi, config, testReporter) {
 
             // verify the RSS exists
             if (config.test) {
-                var rssFailure = false;
+                let rssFailure;
 
                 for (let i = 0; i < rss.length; i++) {
                     try {
                         const response = await request({
                             uri: rss[i].href,
-                            resolveWithFullResponse: true
+                            resolveWithFullResponse: true,
+                            followRedirect: true
                         });
 
-                        rssFailure = response.statusCode !== 200;
+                        rssFailure = response.statusCode !== 200 ? response.statusCode : undefined;
                     } catch (e) {
-                        rssFailure = true;
+                        rssFailure = e;
                     }
                 }
 
-                testReporter.testIsTrue("RSS 200 OK", !rssFailure);
+                testReporter.test("RSS 200 OK", rssFailure);
             }
 
             testReporter.testIsTrue("has RSS", rss.length !== 0);
