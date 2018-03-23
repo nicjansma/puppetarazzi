@@ -36,7 +36,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
                 let contentType = response.headers()["content-type"];
 
                 // strip anything after ';' (e.g. charset)
-                if (contentType.indexOf(";") !== -1) {
+                if (contentType && contentType.indexOf(";") !== -1) {
                     contentType = contentType.substring(0, contentType.indexOf(";")).trim();
                 }
 
@@ -46,6 +46,10 @@ module.exports = function(puppetarazzi, config, testReporter) {
 
                     // make sure it's encoded in one of the allowed methods
                     if (!encoding || config.encoding.indexOf(encoding) === -1) {
+                        if (!notCompressed[contentType]) {
+                            notCompressed[contentType] = [];
+                        }
+
                         notCompressed[contentType].push(response.url());
                     }
                 }
