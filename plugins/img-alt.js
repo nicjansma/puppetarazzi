@@ -14,19 +14,22 @@ module.exports = function(puppetarazzi, config, testReporter) {
         onLoaded: async function(page) {
             const imgs = await page.$$eval("img", nodes => nodes.map((node) => {
                 return {
-                    alt: node.getAttribute("alt")
+                    alt: node.getAttribute("alt"),
+                    src: node.getAttribute("src")
                 };
             }));
 
-            let hasImgWithoutAlt = false;
+            let imgsWithoutAlt = [];
             for (let i = 0; i < imgs.length; i++) {
                 if (!imgs[i].alt) {
-                    hasImgWithoutAlt = true;
+                    imgsWithoutAlt.push(imgs[i].src);
                     break;
                 }
             }
 
-            testReporter.testIsTrue("imgs had alt descriptions", !hasImgWithoutAlt);
+            testReporter.test(
+                "imgs had alt descriptions",
+                imgsWithoutAlt.length === 0 ? undefined : imgsWithoutAlt);
         }
     };
 };
