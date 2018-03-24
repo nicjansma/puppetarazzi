@@ -1,3 +1,8 @@
+//
+// Imports
+//
+const { URL } = require("url");
+
 /**
  * Plugin: tao
  *
@@ -41,7 +46,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
         onLoading: function(page, pageDefinition, url) {
             // reset state before this page begins
             taoMisses = [];
-            destination = url;
+            destination = new URL(url);
         },
         onLoaded: function() {
             testReporter.test(
@@ -50,7 +55,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
         },
         onPage: async function(page) {
             page.on("response", response => {
-                if (response.url() === destination) {
+                if (response.url() === destination.href) {
                     // skip for the destination page
                     return;
                 }
@@ -62,6 +67,12 @@ module.exports = function(puppetarazzi, config, testReporter) {
 
                 // skip any excluded URLs
                 if (isExcluded(response.url())) {
+                    return;
+                }
+
+                // only care about TAO on other domains
+                let responseUrl = new URL(response.url());
+                if (responseUrl.host === destination.host) {
                     return;
                 }
 
