@@ -37,6 +37,7 @@ and each plugin can be enabled as needed.
 * `meta`: Verifies the specified `<meta>` tags exist
 * `mixed-content`: Verifies there are no Mixed-Content warnings
 * `no-404s`: Verifies there are no 404s
+* `no-redirects`: Verifies there weren't any redirects on the page
 * `opengraph`: Verifies pages have OpenGraph (and other) structured content
 * `pwa`: Verifies some of the Progressive Web App requirements
 * `rel-canonical`: Verifies <link rel='canonical'> tag exists
@@ -122,6 +123,7 @@ Example configuration below:
             "warnings": true
         },
         "no-404s": {},
+        "no-redirects": {},
         "opengraph": {
             "testImage": true,
             "twitter": true
