@@ -11,7 +11,7 @@
  */
 module.exports = function(puppetarazzi, config, testReporter) {
     // whether or not the page loaded OK
-    let loadedOk = false;
+    let failureMessage = null;
 
     // current destination URL
     let destination = null;
@@ -19,13 +19,13 @@ module.exports = function(puppetarazzi, config, testReporter) {
     return {
         onLoading: function(page, pageDefinition, url) {
             // reset state before this page begins
-            loadedOk = false;
+            failureMessage = null;
             destination = url;
         },
         onLoaded: function() {
-            testReporter.testIsTrue(
+            testReporter.test(
                 "page loaded OK",
-                loadedOk);
+                failureMessage);
         },
         onPage: async function(page) {
             page.on("response", async response => {
@@ -33,11 +33,13 @@ module.exports = function(puppetarazzi, config, testReporter) {
                     return;
                 }
 
-                if (response.ok()) {
+                if (response.ok() || response.status() === 304) {
                     let contents = await response.text();
                     if (contents && contents.length) {
-                        loadedOk = true;
+                        failureMessage = null;
                     }
+                } else {
+                    failureMessage = response.status();
                 }
             });
         }
