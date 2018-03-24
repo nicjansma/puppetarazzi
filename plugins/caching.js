@@ -112,7 +112,10 @@ module.exports = function(puppetarazzi, config, testReporter) {
                 // log cache misses
                 if (!response.fromCache()) {
                     if (isPage) {
-                        pageCacheMiss = true;
+                        // the browser navigating on reload won't use disk cache
+                        if (response.status() !== 304) {
+                            pageCacheMiss = true;
+                        }
                     } else {
                         cacheMisses.push(response.url());
                     }
