@@ -75,6 +75,15 @@ Puppetarazzi.prototype.run = async function() {
             this.reporter.suite(
                 `${this.config.name}:${device.name}:${pageDefinition.name}`);
 
+            try {
+                // navigate to about:blank first
+                await page.goto("about:blank", {
+                    waitUntil: ["load"]
+                });
+            } catch (e) {
+                console.error(e);
+            }
+
             // notify all plugins that the page is about to load
             await this.notifyPlugins("onLoading", page, pageDefinition, url);
 
@@ -98,6 +107,15 @@ Puppetarazzi.prototype.run = async function() {
             // if we're in reloadAll mode or the page is set to reload, do so
             if (this.config.reloadAll || pageDefinition.reload) {
                 console.log(chalk.bold(pageDefinition.name), chalk.underline(url), "(reload)");
+
+                try {
+                    // navigate to about:blank first
+                    await page.goto("about:blank", {
+                        waitUntil: ["load"]
+                    });
+                } catch (e) {
+                    console.error(e);
+                }
 
                 // notify all plugins that the page is about to load
                 await this.notifyPlugins("onLoading", page, pageDefinition, url);
