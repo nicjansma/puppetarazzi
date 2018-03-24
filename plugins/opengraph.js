@@ -62,7 +62,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
 
                         ogImageFailure = response.statusCode !== 200;
                     } catch (e) {
-                        ogImageFailure = true;
+                        ogImageFailure = e;
                     }
 
                     testReporter.testIsTrue("opengraph og:image 200 OK", !ogImageFailure);
