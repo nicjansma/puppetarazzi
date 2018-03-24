@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.5
+v0.2.6
 
 Copyright 2018 Nic Jansma
 
@@ -196,6 +196,13 @@ Global options:
 
 ## Version History
 
+* v0.2.6 - 2018-03-24
+    * `basic`: Allow for a 304 response
+    * `caching`: Allow for 304 on the page navigate
+    * `no-redirects` added
+    * `opengraph`: Log failure if found
+    * `tao`: Don't fail if no TAO on same domain as navigate
+    * `puppetarazzi`: Navigate to about:blank in between pages
 * v0.2.5 - 2018-03-23
     * Catch exceptions around navigations and continue
 * v0.2.4 - 2018-03-22
