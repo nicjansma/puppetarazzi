@@ -22,7 +22,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
         onLoading: async function(page, pageDefinition) {
             pageConfig = config;
             if (pageDefinition && pageDefinition.plugins && pageDefinition.plugins.schema) {
-                pageConfig = _.merge(config, pageDefinition.plugins.schema);
+                pageConfig = _.merge({}, pageConfig, pageDefinition.plugins.schema);
             }
         },
         onLoaded: async function(page) {
