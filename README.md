@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.6
+v0.2.7
 
 Copyright 2018 Nic Jansma
 
@@ -196,6 +196,9 @@ Global options:
 
 ## Version History
 
+* v0.2.7 - 2018-04-20
+    * `schema`: Fix for page-specific overrides not updating the global config
+    * `asset-compression`: Fix for missing Content-Type
 * v0.2.6 - 2018-03-24
     * `basic`: Allow for a 304 response
     * `caching`: Allow for 304 on the page navigate
