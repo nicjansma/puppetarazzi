@@ -41,7 +41,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
                 }
 
                 // see if it's one of our tracked types
-                if (config.types.indexOf(contentType) !== -1) {
+                if (contentType && config.types.indexOf(contentType) !== -1) {
                     const encoding = response.headers()["content-encoding"];
 
                     // make sure it's encoded in one of the allowed methods
