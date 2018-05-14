@@ -45,7 +45,3 @@ module.exports = function(puppetarazzi, config, testReporter) {
         }
     };
 };
-
-// <!-- icons -->
-// <meta name="msapplication-TileColor" content="#f7d200" />
-// <meta name="msapplication-TileImage" content="<?php echo URL_FAVICONS; ?>tileicon-v<?php echo VER_FAVICON; ?>.png" />

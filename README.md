@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.7
+v0.2.8
 
 Copyright 2018 Nic Jansma
 
@@ -109,7 +109,11 @@ Example configuration below:
             ],
             "tile": true
         },
-        "img-alt": {},
+        "img-alt": {
+            "exclude": [
+                "something\\.com",
+            ],
+        },
         "meta": {
             "required": [
                 { "name": "msapplication-TileColor"},
@@ -196,6 +200,8 @@ Global options:
 
 ## Version History
 
+* v0.2.8 - 2018-05-14
+    * `img-alt`: Has `exclude` option
 * v0.2.7 - 2018-04-20
     * `schema`: Fix for page-specific overrides not updating the global config
     * `asset-compression`: Fix for missing Content-Type

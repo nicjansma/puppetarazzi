@@ -5,11 +5,25 @@
  *
  * @param {Puppetarazzi} puppetarazzi Puppetarazzi instance
  * @param {object} config Configuration
+ * @param {string[]} config.exclude A list of string Regular Expressions for files to exclude
  * @param {TestReporter} testReporter Test reporter
  *
  * @returns {object} Plugin
  */
 module.exports = function(puppetarazzi, config, testReporter) {
+    /**
+     * Determines if a URL is excluded from inspection
+     *
+     * @param {string} url URL
+     *
+     * @returns {boolan} True if the URL is excluded
+     */
+    function isExcluded(url) {
+        return config.exclude.find(function(re) {
+            return re.exec(url);
+        });
+    }
+
     return {
         onLoaded: async function(page) {
             const imgs = await page.$$eval("img", nodes => nodes.map((node) => {
@@ -22,8 +36,10 @@ module.exports = function(puppetarazzi, config, testReporter) {
             let imgsWithoutAlt = [];
             for (let i = 0; i < imgs.length; i++) {
                 if (!imgs[i].alt) {
-                    imgsWithoutAlt.push(imgs[i].src);
-                    break;
+                    // skip any excluded URLs
+                    if (!isExcluded(imgs[i].src)) {
+                        imgsWithoutAlt.push(imgs[i].src);
+                    }
                 }
             }
 
@@ -33,7 +49,3 @@ module.exports = function(puppetarazzi, config, testReporter) {
         }
     };
 };
-
-// <!-- icons -->
-// <meta name="msapplication-TileColor" content="#f7d200" />
-// <meta name="msapplication-TileImage" content="<?php echo URL_FAVICONS; ?>tileicon-v<?php echo VER_FAVICON; ?>.png" />
