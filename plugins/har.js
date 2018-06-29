@@ -22,7 +22,7 @@ const { promisify } = require("util");
 const { harFromMessages } = require("chrome-har");
 
 // list of events for converting to HAR
-const events = [];
+let events = [];
 
 // event types to observe
 const observe = [
@@ -30,6 +30,7 @@ const observe = [
     "Page.domContentEventFired",
     "Page.frameStartedLoading",
     "Page.frameAttached",
+    "Page.frameScheduledNavigation",
     "Network.requestWillBeSent",
     "Network.requestServedFromCache",
     "Network.dataReceived",
@@ -56,6 +57,8 @@ module.exports = function(puppetarazzi, config) {
         onPage: async function(page) {
             // register events listeners
             const client = await page.target().createCDPSession();
+
+            events = [];
 
             await client.send("Page.enable");
             await client.send("Network.enable");

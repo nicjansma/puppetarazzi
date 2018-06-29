@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.8
+v0.2.9
 
 Copyright 2018 Nic Jansma
 
@@ -200,6 +200,9 @@ Global options:
 
 ## Version History
 
+* v0.2.9 - 2018-06-29
+    * `har`: Was never clearing old entries
+    * `har`: Upgraded to latest `chrome-har` package to fix invalid har files
 * v0.2.8 - 2018-05-14
     * `img-alt`: Has `exclude` option
 * v0.2.7 - 2018-04-20
