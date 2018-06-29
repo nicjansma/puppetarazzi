@@ -58,8 +58,6 @@ module.exports = function(puppetarazzi, config) {
             // register events listeners
             const client = await page.target().createCDPSession();
 
-            events = [];
-
             await client.send("Page.enable");
             await client.send("Network.enable");
 
@@ -69,6 +67,10 @@ module.exports = function(puppetarazzi, config) {
                     events.push({ method, params });
                 });
             });
+        },
+        onLoading: async function() {
+            // clear events
+            events = [];
         },
         onDevice: async function(newDevice) {
             device = newDevice;
