@@ -129,6 +129,11 @@ Puppetarazzi.prototype.run = async function() {
                     console.error(e);
                 }
 
+                // wait if configured
+                if (this.config.postLoadSleep) {
+                    await sleep(this.config.postLoadSleep);
+                }
+
                 // notify all plugins that this page has loaded (a reload)
                 await this.notifyPlugins("onLoaded", page, pageDefinition, url, false, true);
             }
