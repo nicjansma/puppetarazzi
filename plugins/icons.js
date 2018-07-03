@@ -39,7 +39,13 @@ module.exports = function(puppetarazzi, config, testReporter) {
             }
 
             if (config.tile) {
-                const tileIconCount = await page.$$eval("meta[name='msapplication-TileImage']", nodes => nodes.length);
+                let tileIconCount = false;
+                try {
+                    tileIconCount = await page.$$eval("meta[name='msapplication-TileImage']", nodes => nodes.length);
+                } catch (e) {
+                    tileIconCount = false;
+                }
+
                 testReporter.testIsTrue("has msapplication-TileImage", tileIconCount);
             }
         }

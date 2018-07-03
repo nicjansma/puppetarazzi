@@ -19,6 +19,10 @@ module.exports = function(puppetarazzi, config, testReporter) {
      * @returns {boolan} True if the URL is excluded
      */
     function isExcluded(url) {
+        if (!config.exclude) {
+            return false;
+        }
+
         return config.exclude.find(function(re) {
             return re.exec(url);
         });

@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.11
+v0.2.12
 
 Copyright 2018 Nic Jansma
 
@@ -200,6 +200,8 @@ Global options:
 
 ## Version History
 
+* v0.2.12 - 2018-07-02
+    * `img-alt`, `tao`, `icons`, `caching`: Minor bug fixes
 * v0.2.11 - 2018-07-01
     * If `postLoadSleep` is configured, sleep for the reload too
 * v0.2.10 - 2018-06-29

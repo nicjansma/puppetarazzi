@@ -1,6 +1,6 @@
 {
   "name": "puppetarazzi",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Takes screenshots of your website and annoys you by pointing out your flaws (mixed-content, uncompressed content, 404s, etc)\"",
   "main": "index.js",
   "repository": {
