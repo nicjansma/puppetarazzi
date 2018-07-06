@@ -13,15 +13,21 @@
 module.exports = function(puppetarazzi, config, testReporter) {
     return {
         onLoaded: async function(page) {
-            const metas = await page.$$eval(
-                "meta",
-                nodes => nodes.map((node) => {
-                    return {
-                        name: node.getAttribute("name"),
-                        "http-equiv": node.getAttribute("http-equiv"),
-                        content: node.getAttribute("content")
-                    };
-                }));
+            let metas = [];
+
+            try {
+                metas = await page.$$eval(
+                    "meta",
+                    nodes => nodes.map((node) => {
+                        return {
+                            name: node.getAttribute("name"),
+                            "http-equiv": node.getAttribute("http-equiv"),
+                            content: node.getAttribute("content")
+                        };
+                    }));
+            } catch (e) {
+                // NOP
+            }
 
             for (let i = 0; i < config.required.length; i++) {
                 let found = false;

@@ -27,9 +27,14 @@ module.exports = function(puppetarazzi, config, testReporter) {
         },
         onLoaded: async function(page) {
             // look for a rel=canonical tag
-            const itemTypes = await page.$$eval("*[itemtype]", nodes => nodes.map((node) => {
-                return node.getAttribute("itemtype");
-            }));
+            let itemTypes = [];
+            try {
+                itemTypes = await page.$$eval("*[itemtype]", nodes => nodes.map((node) => {
+                    return node.getAttribute("itemtype");
+                }));
+            } catch (e) {
+                // NOP
+            }
 
             // report on each itemtype required
             pageConfig.require.forEach(function(type) {

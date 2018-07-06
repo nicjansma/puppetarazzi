@@ -13,7 +13,12 @@ module.exports = function(puppetarazzi, config, testReporter) {
     return {
         onLoaded: async function(page) {
             // look for a rel=search tag
-            const linkCount = await page.$$eval("link[rel='search']", links => links.length);
+            let linkCount = 0;
+            try {
+                linkCount = await page.$$eval("link[rel='search']", links => links.length);
+            } catch (e) {
+                // NOP
+            }
 
             testReporter.testIsTrue("has rel='search'", linkCount.length !== 0);
         }

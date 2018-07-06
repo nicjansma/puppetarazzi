@@ -43,12 +43,22 @@ module.exports = function(puppetarazzi, config, testReporter) {
             });
         },
         onLoaded: async function(page, pageDefinition, url, firstLoad, reload) {
-            // 1. <meta name='theme-colo'>
-            const metaThemeColorCount = await page.$$eval("meta[name='theme-color']", metas => metas.length);
+            // 1. <meta name='theme-color'>
+            let metaThemeColorCount = 0;
+            try {
+                metaThemeColorCount = await page.$$eval("meta[name='theme-color']", metas => metas.length);
+            } catch (e) {
+                // NOP
+            }
             testReporter.testIsTrue("has meta 'theme-color'", metaThemeColorCount);
 
             // 2. <link rel='manifest'>
-            const manifestCount = await page.$$eval("link[rel='manifest']", links => links.length);
+            let manifestCount = 0;
+            try {
+                manifestCount = await page.$$eval("link[rel='manifest']", links => links.length);
+            } catch (e) {
+                // NOP
+            }
             testReporter.testIsTrue("has link 'manifest'", manifestCount);
 
             // 3. Available on SSL

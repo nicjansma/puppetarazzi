@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.14
+v0.2.15
 
 Copyright 2018 Nic Jansma
 
@@ -201,7 +201,9 @@ Global options:
 
 ## Version History
 
-* v0.2.13 - 2018-07-05
+* v0.2.15 - 2018-07-05
+    * Fixes for several plugins that were finding elements on the page
+* v0.2.14 - 2018-07-05
     * `asset-compression`: Allow `exclude`
 * v0.2.13 - 2018-07-05
     * When Chrome crashes or throws an error, don't run plugins and just fail the page load

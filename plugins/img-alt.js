@@ -30,12 +30,18 @@ module.exports = function(puppetarazzi, config, testReporter) {
 
     return {
         onLoaded: async function(page) {
-            const imgs = await page.$$eval("img", nodes => nodes.map((node) => {
-                return {
-                    alt: node.getAttribute("alt"),
-                    src: node.getAttribute("src")
-                };
-            }));
+            let imgs = [];
+
+            try {
+                imgs = await page.$$eval("img", nodes => nodes.map((node) => {
+                    return {
+                        alt: node.getAttribute("alt"),
+                        src: node.getAttribute("src")
+                    };
+                }));
+            } catch (e) {
+                // NOP
+            }
 
             let imgsWithoutAlt = [];
             for (let i = 0; i < imgs.length; i++) {

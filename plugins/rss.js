@@ -19,13 +19,19 @@ const request = require("request-promise-native");
 module.exports = function(puppetarazzi, config, testReporter) {
     return {
         onLoaded: async function(page) {
-            // look for a rel=search tag
-            const rss = await page.$$eval("link[rel='alternate'][type='application/rss+xml']",
-                nodes => nodes.map((node) => {
-                    return {
-                        href: node.getAttribute("href")
-                    };
-                }));
+            let rss = [];
+
+            try {
+                // look for a rel=search tag
+                rss = await page.$$eval("link[rel='alternate'][type='application/rss+xml']",
+                    nodes => nodes.map((node) => {
+                        return {
+                            href: node.getAttribute("href")
+                        };
+                    }));
+            } catch (e) {
+                // NOP
+            }
 
             // verify the RSS exists
             if (config.test) {

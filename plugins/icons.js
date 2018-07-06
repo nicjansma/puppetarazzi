@@ -14,15 +14,21 @@
 module.exports = function(puppetarazzi, config, testReporter) {
     return {
         onLoaded: async function(page) {
-            const icons = await page.$$eval(
-                "link[rel='apple-touch-icon'],link[rel='icon'],link[rel='shortcut icon']",
-                nodes => nodes.map((node) => {
-                    return {
-                        rel: node.getAttribute("rel"),
-                        sizes: node.getAttribute("sizes"),
-                        href: node.getAttribute("href")
-                    };
-                }));
+            let icons = [];
+
+            try {
+                icons = await page.$$eval(
+                    "link[rel='apple-touch-icon'],link[rel='icon'],link[rel='shortcut icon']",
+                    nodes => nodes.map((node) => {
+                        return {
+                            rel: node.getAttribute("rel"),
+                            sizes: node.getAttribute("sizes"),
+                            href: node.getAttribute("href")
+                        };
+                    }));
+            } catch (e) {
+                // NOP
+            }
 
             for (let i = 0; i < config.required.length; i++) {
                 let found = false;

@@ -14,9 +14,15 @@ module.exports = function(puppetarazzi, config, testReporter) {
     return {
         onLoaded: async function(page) {
             // look for a rel=canonical tag
-            const hrefs = await page.$$eval("link[rel='canonical']", links => links.map((a) => {
-                return a.href;
-            }));
+            let hrefs = [];
+
+            try {
+                hrefs = await page.$$eval("link[rel='canonical']", links => links.map((a) => {
+                    return a.href;
+                }));
+            } catch (e) {
+                // NOP
+            }
 
             testReporter.testIsTrue("has rel='canonical'", hrefs.length !== 0);
 
