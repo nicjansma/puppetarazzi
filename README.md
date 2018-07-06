@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.13
+v0.2.14
 
 Copyright 2018 Nic Jansma
 
@@ -81,7 +81,8 @@ Example configuration below:
         },
         "asset-compression": {
             "types": ["text/javascript", "text/css"],
-            "encoding": ["gzip", "br"]
+            "encoding": ["gzip", "br"],
+            "exclude": []
         },
         "caching": {
             "exclude": [
@@ -200,6 +201,8 @@ Global options:
 
 ## Version History
 
+* v0.2.13 - 2018-07-05
+    * `asset-compression`: Allow `exclude`
 * v0.2.13 - 2018-07-05
     * When Chrome crashes or throws an error, don't run plugins and just fail the page load
 * v0.2.12 - 2018-07-02

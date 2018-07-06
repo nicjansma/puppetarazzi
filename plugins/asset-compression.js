@@ -18,6 +18,30 @@ module.exports = function(puppetarazzi, config, testReporter) {
 
     config.types = config.types || [];
 
+    config.exclude = config.exclude || [];
+
+    // convert all excludes to RegExp
+    config.exclude = config.exclude.map(function(re) {
+        return new RegExp(re);
+    });
+
+    /**
+     * Determines if a URL is excluded from inspection
+     *
+     * @param {string} url URL
+     *
+     * @returns {boolan} True if the URL is excluded
+     */
+    function isExcluded(url) {
+        if (!config.exclude) {
+            return false;
+        }
+
+        return config.exclude.find(function(re) {
+            return re.exec(url);
+        });
+    }
+
     return {
         onLoading: function() {
             // reset the list for each page
@@ -33,6 +57,11 @@ module.exports = function(puppetarazzi, config, testReporter) {
         },
         onPage: async function(page) {
             page.on("response", response => {
+                // skip any excluded URLs
+                if (isExcluded(response.url())) {
+                    return;
+                }
+
                 let contentType = response.headers()["content-type"];
 
                 // strip anything after ';' (e.g. charset)
