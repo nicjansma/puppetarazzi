@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.12
+v0.2.13
 
 Copyright 2018 Nic Jansma
 
@@ -200,6 +200,8 @@ Global options:
 
 ## Version History
 
+* v0.2.13 - 2018-07-05
+    * When Chrome crashes or throws an error, don't run plugins and just fail the page load
 * v0.2.12 - 2018-07-02
     * `img-alt`, `tao`, `icons`, `caching`: Minor bug fixes
 * v0.2.11 - 2018-07-01

@@ -87,6 +87,8 @@ Puppetarazzi.prototype.run = async function() {
             // notify all plugins that the page is about to load
             await this.notifyPlugins("onLoading", page, pageDefinition, url);
 
+            let pageLoadError = null;
+
             try {
                 // goto the specified URL
                 await page.goto(url, {
@@ -94,6 +96,17 @@ Puppetarazzi.prototype.run = async function() {
                 });
             } catch (e) {
                 console.error(e);
+
+                pageLoadError = e;
+            }
+
+            if (pageLoadError) {
+                // don't run plugins
+                this.reporter.forClass("global").test(
+                    "page loaded OK",
+                    pageLoadError);
+
+                continue;
             }
 
             // wait if configured
@@ -115,6 +128,17 @@ Puppetarazzi.prototype.run = async function() {
                     });
                 } catch (e) {
                     console.error(e);
+
+                    pageLoadError = e;
+                }
+
+                if (pageLoadError) {
+                    // don't run plugins
+                    this.reporter.forClass("global").test(
+                        "page (reload) loaded OK",
+                        pageLoadError);
+
+                    continue;
                 }
 
                 // notify all plugins that the page is about to load
