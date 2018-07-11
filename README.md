@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.16
+v0.2.17
 
 Copyright 2018 Nic Jansma
 
@@ -128,7 +128,11 @@ Example configuration below:
             "warnings": true
         },
         "no-404s": {},
-        "no-redirects": {},
+        "no-redirects": {
+            "exclude": [
+                "something\\.com",
+            ],
+        },
         "opengraph": {
             "testImage": true,
             "twitter": true
@@ -201,6 +205,8 @@ Global options:
 
 ## Version History
 
+* v0.2.17 - 2018-07-10
+    * `no-redirects`: Adds `exclude` option
 * v0.2.16 - 2018-07-10
     * `img-alt`: Fixes `exclude` option
     * `asset-compression`: Ignore `data:` URIs

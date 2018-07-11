@@ -10,6 +10,28 @@
  * @returns {object} Plugin
  */
 module.exports = function(puppetarazzi, config, testReporter) {
+    // convert all excludes to RegExp
+    config.exclude = config.exclude.map(function(re) {
+        return new RegExp(re);
+    });
+
+    /**
+     * Determines if a URL is excluded from inspection
+     *
+     * @param {string} url URL
+     *
+     * @returns {boolan} True if the URL is excluded
+     */
+    function isExcluded(url) {
+        if (!config.exclude) {
+            return false;
+        }
+
+        return config.exclude.find(function(re) {
+            return re.exec(url);
+        });
+    }
+
     // 404 URLs
     let redirectUrls = [];
 
@@ -26,6 +48,11 @@ module.exports = function(puppetarazzi, config, testReporter) {
         },
         onPage: async function(page) {
             page.on("response", response => {
+                // skip any excluded URLs
+                if (isExcluded(response.url())) {
+                    return;
+                }
+
                 if (response.status() >= 300 && response.status() < 400 && response.status() !== 304) {
                     redirectUrls.push(response.url());
                 }
