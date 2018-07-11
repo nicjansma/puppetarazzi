@@ -10,6 +10,8 @@
  * @returns {object} Plugin
  */
 module.exports = function(puppetarazzi, config, testReporter) {
+    config.exclude = config.exclude || [];
+
     // convert all excludes to RegExp
     config.exclude = config.exclude.map(function(re) {
         return new RegExp(re);

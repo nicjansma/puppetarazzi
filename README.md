@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.17
+v0.2.18
 
 Copyright 2018 Nic Jansma
 
@@ -205,6 +205,8 @@ Global options:
 
 ## Version History
 
+* v0.2.18 - 2018-07-10
+    * `no-redirects`, `img-alt`: Fixes for `exclude` if not specified
 * v0.2.17 - 2018-07-10
     * `no-redirects`: Adds `exclude` option
 * v0.2.16 - 2018-07-10
