@@ -62,6 +62,11 @@ module.exports = function(puppetarazzi, config, testReporter) {
                     return;
                 }
 
+                if (response.url().indexOf("data:") !== -1) {
+                    // skip data:
+                    return;
+                }
+
                 let contentType = response.headers()["content-type"];
 
                 // strip anything after ';' (e.g. charset)

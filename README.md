@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.15
+v0.2.16
 
 Copyright 2018 Nic Jansma
 
@@ -201,6 +201,9 @@ Global options:
 
 ## Version History
 
+* v0.2.16 - 2018-07-10
+    * `img-alt`: Fixes `exclude` option
+    * `asset-compression`: Ignore `data:` URIs
 * v0.2.15 - 2018-07-05
     * Fixes for several plugins that were finding elements on the page
 * v0.2.14 - 2018-07-05
