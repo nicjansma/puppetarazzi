@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.18
+v0.2.19
 
 Copyright 2018 Nic Jansma
 
@@ -184,7 +184,15 @@ Example configuration below:
         { "name": "galaxy-note-5", "width": 480, "height": 853 },
         { "name": "galaxy-tab-10", "width": 800, "height": 1280 },
         { "name": "kindle-fire-hdx", "width": 800, "height": 1280 }
-    ]
+    ],
+
+    // if launching from a Docker container
+    "puppeteerOptions": {
+        "args": [
+            "--no-sandbox",
+            "--disable-setuid-sandbox"
+        ]
+    }
 }
 ```
 
@@ -202,9 +210,12 @@ Global options:
 * `plugins` - Each enabled plugin should be listed with its options
 * `pages` - A list of `name`, `path` and `reload` (optional) pairs
 * `devices` - A list of `name`, `width` and `height` pairs
+* `puppeteerOptions` - Options to pass to `puppeteer.launch()`
 
 ## Version History
 
+* v0.2.19 - 2018-11-24
+  * Added `puppeteerOptions` as a config JSON option for arguments to pass to `puppeteer.launch()`
 * v0.2.18 - 2018-07-10
     * `no-redirects`, `img-alt`: Fixes for `exclude` if not specified
 * v0.2.17 - 2018-07-10

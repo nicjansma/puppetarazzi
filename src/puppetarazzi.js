@@ -45,7 +45,7 @@ Puppetarazzi.prototype.run = async function() {
     // test each device individually
     for (let device of this.config.devices) {
         // launch the browser
-        let browser = await puppeteer.launch();
+        let browser = await puppeteer.launch(this.config.puppeteerOptions);
         await this.notifyPlugins("onBrowser", browser);
 
         // create a new page
