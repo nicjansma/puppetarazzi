@@ -215,7 +215,7 @@ Global options:
 ## Version History
 
 * v0.2.19 - 2018-11-24
-  * Added `puppeteerOptions` as a config JSON option for arguments to pass to `puppeteer.launch()`
+    * Added `puppeteerOptions` as a config JSON option for arguments to pass to `puppeteer.launch()`
 * v0.2.18 - 2018-07-10
     * `no-redirects`, `img-alt`: Fixes for `exclude` if not specified
 * v0.2.17 - 2018-07-10
