@@ -1,3 +1,8 @@
+//
+// Imports
+//
+const _ = require("lodash");
+
 /**
  * Plugin: meta
  *
@@ -19,7 +24,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
 
             // overwrite with required list from page definition
             if (pageDefinition && pageDefinition.plugins && pageDefinition.plugins.meta) {
-                pageConfig.required = pageDefinition.plugins.meta.required;
+                pageConfig = _.merge({}, pageDefinition.plugins.meta);
             }
         },
         onLoaded: async function(page) {
