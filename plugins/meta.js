@@ -11,7 +11,17 @@
  * @returns {object} Plugin
  */
 module.exports = function(puppetarazzi, config, testReporter) {
+    let pageConfig = config;
+
     return {
+        onLoading: async function(page, pageDefinition) {
+            pageConfig = config;
+
+            // overwrite with required list from page definition
+            if (pageDefinition && pageDefinition.plugins && pageDefinition.plugins.meta) {
+                pageConfig.required = pageDefinition.plugins.meta.required;
+            }
+        },
         onLoaded: async function(page) {
             let metas = [];
 
@@ -29,9 +39,9 @@ module.exports = function(puppetarazzi, config, testReporter) {
                 // NOP
             }
 
-            for (let i = 0; i < config.required.length; i++) {
+            for (let i = 0; i < pageConfig.required.length; i++) {
                 let found = false;
-                let req = config.required[i];
+                let req = pageConfig.required[i];
                 let type = req["http-equiv"] ? "http-equiv" : "name";
 
                 for (let j = 0; j < metas.length; j++) {

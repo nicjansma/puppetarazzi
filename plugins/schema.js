@@ -21,6 +21,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
     return {
         onLoading: async function(page, pageDefinition) {
             pageConfig = config;
+
             if (pageDefinition && pageDefinition.plugins && pageDefinition.plugins.schema) {
                 pageConfig = _.merge({}, pageConfig, pageDefinition.plugins.schema);
             }

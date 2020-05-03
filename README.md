@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.19
+v0.2.20
 
 Copyright 2018 Nic Jansma
 
@@ -214,6 +214,8 @@ Global options:
 
 ## Version History
 
+* v0.2.20 - 2020-05-03
+    * `meta`: Added page-specific overrides
 * v0.2.19 - 2018-11-24
     * Added `puppeteerOptions` as a config JSON option for arguments to pass to `puppeteer.launch()`
 * v0.2.18 - 2018-07-10
