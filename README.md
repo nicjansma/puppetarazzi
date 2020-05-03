@@ -2,7 +2,7 @@
 
 v0.2.20
 
-Copyright 2018 Nic Jansma
+Copyright 2020 Nic Jansma
 
 http://nicj.net
 
