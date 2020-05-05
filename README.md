@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.21
+v0.2.22
 
 Copyright 2020 Nic Jansma
 
@@ -214,6 +214,8 @@ Global options:
 
 ## Version History
 
+* v0.2.22 - 2020-05-05
+    * `har`: Upgrade `chrome-har` dependency to avoid exception
 * v0.2.21 - 2020-05-03
     * `meta`: Fix page-specific overrides when additional non-overwritten pages follow
 * v0.2.20 - 2020-05-03
