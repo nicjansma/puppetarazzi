@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.22
+v0.2.23
 
 Copyright 2020 Nic Jansma
 
@@ -214,6 +214,8 @@ Global options:
 
 ## Version History
 
+* v0.2.23 - 2020-05-05
+    * Option `waitUntil` (puppet option) at global or page level
 * v0.2.22 - 2020-05-05
     * `har`: Upgrade `chrome-har` dependency to avoid exception
 * v0.2.21 - 2020-05-03

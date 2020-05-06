@@ -42,6 +42,9 @@ Puppetarazzi.prototype.run = async function() {
         this.plugins[plugin].name = plugin;
     }
 
+    // how long we wait for the page to load
+    let waitUntil = this.config.waitUntil || ["networkidle0", "load"];
+
     // test each device individually
     for (let device of this.config.devices) {
         // launch the browser
@@ -92,7 +95,7 @@ Puppetarazzi.prototype.run = async function() {
             try {
                 // goto the specified URL
                 await page.goto(url, {
-                    waitUntil: ["networkidle0", "load"]
+                    waitUntil: pageDefinition.waitUntil || waitUntil
                 });
             } catch (e) {
                 console.error(e);
@@ -147,7 +150,7 @@ Puppetarazzi.prototype.run = async function() {
                 try {
                     // go to the URL again
                     await page.goto(url, {
-                        waitUntil: ["networkidle0", "load"]
+                        waitUntil: pageDefinition.waitUntil || waitUntil
                     });
                 } catch (e) {
                     console.error(e);
