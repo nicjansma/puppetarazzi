@@ -1,6 +1,6 @@
 # Puppetarazzi
 
-v0.2.23
+v0.2.24
 
 Copyright 2020 Nic Jansma
 
@@ -211,9 +211,12 @@ Global options:
 * `pages` - A list of `name`, `path` and `reload` (optional) pairs
 * `devices` - A list of `name`, `width` and `height` pairs
 * `puppeteerOptions` - Options to pass to `puppeteer.launch()`
+* `timeout` - Timeout per page
 
 ## Version History
 
+* v0.2.23 - 2020-05-15
+    * Use `process.exit()` after run is complete to force it to close
 * v0.2.23 - 2020-05-05
     * Option `waitUntil` (puppet option) at global or page level
 * v0.2.22 - 2020-05-05

@@ -45,11 +45,19 @@ Puppetarazzi.prototype.run = async function() {
     // how long we wait for the page to load
     let waitUntil = this.config.waitUntil || ["networkidle0", "load"];
 
+    let disconnecting = false;
+
     // test each device individually
     for (let device of this.config.devices) {
         // launch the browser
         let browser = await puppeteer.launch(this.config.puppeteerOptions);
         await this.notifyPlugins("onBrowser", browser);
+
+        browser.on("disconnected", function() {
+            if (!disconnecting) {
+                console.error("Browser disconnected!");
+            }
+        });
 
         // create a new page
         let page = await browser.newPage();
@@ -167,7 +175,8 @@ Puppetarazzi.prototype.run = async function() {
         }
 
         // stop the browser
-        browser.close();
+        disconnecting = true;
+        await browser.close();
     }
 
     // write jUnit XML if requested
