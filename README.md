@@ -215,7 +215,7 @@ Global options:
 
 ## Version History
 
-* v0.2.23 - 2020-05-15
+* v0.2.24 - 2020-05-15
     * Use `process.exit()` after run is complete to force it to close
 * v0.2.23 - 2020-05-05
     * Option `waitUntil` (puppet option) at global or page level
