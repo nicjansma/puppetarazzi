@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/nicjansma/puppetarazzi#readme",
   "dependencies": {
-    "async": "^2.6.0",
+    "async": "^3.2.2",
     "await-sleep": "0.0.1",
     "awaitable-async": "0.0.6",
     "chalk": "^2.3.1",
