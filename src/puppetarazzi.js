@@ -74,8 +74,6 @@ Puppetarazzi.prototype.run = async function() {
             height: device.height
         });
 
-        var firstLoad = true;
-
         // run through each page
         for (let pageDefinition of this.config.pages) {
             var url = this.config.root + pageDefinition.path;
@@ -96,7 +94,7 @@ Puppetarazzi.prototype.run = async function() {
             }
 
             // notify all plugins that the page is about to load
-            await this.notifyPlugins("onLoading", page, pageDefinition, url);
+            await this.notifyPlugins("onLoading", page, pageDefinition, url, true, false);
 
             let pageLoadError = null;
 
@@ -126,7 +124,7 @@ Puppetarazzi.prototype.run = async function() {
             }
 
             // notify all plugins that this page has loaded
-            await this.notifyPlugins("onLoaded", page, pageDefinition, url, firstLoad, false);
+            await this.notifyPlugins("onLoaded", page, pageDefinition, url, true, false);
 
             // if we're in reloadAll mode or the page is set to reload, do so
             if (this.config.reloadAll || pageDefinition.reload) {
@@ -153,7 +151,7 @@ Puppetarazzi.prototype.run = async function() {
                 }
 
                 // notify all plugins that the page is about to load
-                await this.notifyPlugins("onLoading", page, pageDefinition, url);
+                await this.notifyPlugins("onLoading", page, pageDefinition, url, false, true);
 
                 try {
                     // go to the URL again

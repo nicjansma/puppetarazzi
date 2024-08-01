@@ -28,6 +28,12 @@ module.exports = function(puppetarazzi, config, testReporter) {
     // current destination URL
     let destination = null;
 
+    // URLs from first page
+    let firstPageUrls = [];
+
+    // Currently on the first page
+    let isFirstLoad = false;
+
     config.exclude = config.exclude || [];
 
     // convert all excludes to RegExp
@@ -40,7 +46,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
      *
      * @param {string} url URL
      *
-     * @returns {boolan} True if the URL is excluded
+     * @returns {boolean} True if the URL is excluded
      */
     function isExcluded(url) {
         if (!config.exclude) {
@@ -53,13 +59,18 @@ module.exports = function(puppetarazzi, config, testReporter) {
     }
 
     return {
-        onLoading: function(page, pageDefinition, url) {
+        onLoading: function(page, pageDefinition, url, firstLoad, reload) {
             // reset state before this page begins
             cacheMisses = [];
             missingHeaders = [];
             pageCacheMiss = false;
             pageMissingHeaders = false;
             destination = url;
+            isFirstLoad = firstLoad;
+
+            if (firstLoad) {
+                firstPageUrls = [];
+            }
         },
         onLoaded: function(page, pageDefinition, url, firstLoad, reload) {
             // caching headers checks
@@ -83,8 +94,12 @@ module.exports = function(puppetarazzi, config, testReporter) {
             }
         },
         onPage: async function(page) {
-            page.on("response", response => {
+            page.on("response", async response => {
                 let isPage = response.url() === destination;
+
+                if (isFirstLoad) {
+                    firstPageUrls.push(response.url());
+                }
 
                 if (response.url().indexOf("data:") !== -1) {
                     // skip data:
@@ -120,7 +135,32 @@ module.exports = function(puppetarazzi, config, testReporter) {
                         if (response.status() !== 304) {
                             pageCacheMiss = true;
                         }
+                    } else if (config.excludeLazy) {
+                        // Look to see if this URL is a lazy loading image, and if so,
+                        // we can skip it since it may be random
+                        let imgs = [];
+
+                        try {
+                            imgs = await page.$$eval("img", nodes => nodes.map((node) => {
+                                return {
+                                    loading: node.getAttribute("loading"),
+                                    src: node.getAttribute("src")
+                                };
+                            }));
+                        } catch (e) {
+                            // NOP
+                        }
+
+                        // look for any IMG loading=lazy with the same src, and the URL was NOT loaded in the original
+                        var matchingImg = imgs.find((i) => i.src === response.url() && i.loading === "lazy")
+                            && firstPageUrls.indexOf(response.url()) === -1;
+
+                        if (!matchingImg) {
+                            // not a loading="lazy", add to the cache misses
+                            cacheMisses.push(response.url());
+                        }
                     } else {
+                        // lazy loads are not excluded
                         cacheMisses.push(response.url());
                     }
                 }
