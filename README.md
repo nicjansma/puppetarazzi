@@ -219,6 +219,8 @@ Global options:
 
 ## Version History
 
+* v0.2.26 - 2024-08-28
+  * `rss` Does retries
 * v0.2.25 - 2024-08-01
   * Add `caching.excludeLazy` option
 * v0.2.24 - 2020-05-15
