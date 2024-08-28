@@ -43,7 +43,7 @@ module.exports = function(puppetarazzi, config, testReporter) {
 
                 for (let i = 0; i < rss.length; i++) {
                     for (let j = 0; j < config.retries; j++) {
-                        rssFailure = requestUrl(rss[i].href);
+                        rssFailure = await requestUrl(rss[i].href);
 
                         if (!rssFailure) {
                             // success!  continue with the next URL
