@@ -81,6 +81,6 @@ async function requestUrl(url) {
 
         return response.statusCode !== 200 ? response.statusCode : undefined;
     } catch (e) {
-        return e;
+        return e.message;
     }
 }
